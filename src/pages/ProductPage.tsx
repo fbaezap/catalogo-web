@@ -1,4 +1,3 @@
-import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,13 +7,11 @@ import {
   Box,
   CircularProgress,
   Container,
-  Grid,
   IconButton,
-  TextField,
 } from "@material-ui/core";
 import ProductForm, { Values } from "../components/ProductForm";
 import { ChevronLeft } from "@material-ui/icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +29,7 @@ export default function ProductPage() {
   const { id } = useParams<{ id?: string }>();
   const [loading, setLoading] = React.useState(Boolean(id));
   const [defaultValues, setDefaultValues] = React.useState<Values>();
-  const [error, setError] = React.useState();
+  const [, setError] = React.useState();
   React.useEffect(() => {
     if (id) {
       setLoading(true);
@@ -42,6 +39,8 @@ export default function ProductPage() {
         .finally(() => setLoading(false));
     }
   }, [id]);
+
+  const history = useHistory();
   return (
     <React.Fragment>
       <AppBar position="relative">
@@ -67,7 +66,7 @@ export default function ProductPage() {
             <ProductForm
               id={id}
               defaultValues={defaultValues}
-              onResult={(d) => console.log(d)}
+              onResult={(d) => (d ? history.push("/products") : undefined)}
             />
           ) : (
             <Box textAlign="center">

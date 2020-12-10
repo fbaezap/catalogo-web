@@ -6,14 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import Products, { Product } from "../components/Products";
 import Axios from "axios";
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  IconButton,
-  TextField,
-} from "@material-ui/core";
+import { Box, CircularProgress, Container } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { Link } from "react-router-dom";
 import { ProductSearch } from "../components/ProductSearch";
@@ -33,6 +26,7 @@ export default function ProductsPage() {
   const classes = useStyles();
 
   const [search, setSearch] = React.useState<string>();
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [palindrome, setPalindrome] = React.useState<boolean>(false);
   const [products, setProducts] = React.useState<Product[]>();
   const [error, setError] = React.useState<"SEARCH" | "UNKNOWN">();
@@ -43,6 +37,7 @@ export default function ProductsPage() {
         setError("SEARCH");
         return;
       }
+      setLoading(true);
       Axios.get("products", {
         params,
       })
@@ -53,12 +48,14 @@ export default function ProductsPage() {
         })
         .catch((error) => {
           setError("UNKNOWN");
-        });
+        })
+        .finally(() => setLoading(false));
     },
     []
   );
   React.useEffect(() => {
     loadData();
+    // eslint-disable-next-line
   }, []);
   return (
     <React.Fragment>
@@ -90,7 +87,12 @@ export default function ProductsPage() {
               </Alert>
             </Box>
           )}
-          {products ? (
+          {loading && (
+            <Box textAlign="center">
+              <CircularProgress />
+            </Box>
+          )}
+          {products && !loading && (
             <>
               <Typography paragraph>
                 {search
@@ -107,10 +109,6 @@ export default function ProductsPage() {
                 <Typography>No hay productos</Typography>
               )}
             </>
-          ) : (
-            <Box textAlign="center">
-              <CircularProgress />
-            </Box>
           )}
         </Container>
       </main>

@@ -1,6 +1,5 @@
 import Axios from "axios";
 import React from "react";
-import { useForm, UseFormMethods } from "react-hook-form";
 
 export interface Values {
   brand: string;
@@ -36,7 +35,7 @@ export default function ProductRequest({
         .catch((error) => onResult(undefined, error))
         .finally(() => setLoading(false));
     },
-    [id]
+    [id, onResult]
   );
 
   return children(onSubmit, loading);

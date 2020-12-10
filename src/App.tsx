@@ -4,7 +4,7 @@ import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 import ProductsPage from "./pages/ProductsPage";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -15,7 +15,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
+      <Router basename="/">
         <Switch>
           <Route path="/products/create">
             <ProductPage />

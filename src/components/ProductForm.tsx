@@ -1,7 +1,6 @@
 import { Button, Grid, TextField } from "@material-ui/core";
-import Axios from "axios";
 import React from "react";
-import { useForm, UseFormMethods } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ProductRequest from "./ProductRequest";
 
 export interface Values {

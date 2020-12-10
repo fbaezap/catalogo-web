@@ -3,7 +3,7 @@ import React from "react";
 
 export default function useProductRemove() {
   const [loading, setLoading] = React.useState(false);
-  const [data, setData] = React.useState();
+  const [, setData] = React.useState();
   const [error, setError] = React.useState();
   const request = React.useCallback((id: string) => {
     setLoading(true);
